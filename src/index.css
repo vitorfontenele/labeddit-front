@@ -1,0 +1,62 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.container{
+    margin: 0 32px;
+}
+
+.page-title{
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #373737;
+    font-weight: 700;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input{
+    font-size: 16px;
+    color: #000;
+    line-height: 22px;
+    padding: 20px 16px 18px 16px;
+    border: 1px solid #D5D8DE;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.form-input::placeholder{
+    color: #373737;
+}
+
+.button{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 27px;
+    padding: 13px 0px;
+    width: 100%;
+}
+
+.primary-button{
+    color: white;
+    border: none;
+    background: linear-gradient(90deg, #FF6489 0%, #F9B24E 100%);
+}
+
+.divider{
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, #FF6489 0%, #F9B24E 100%);
+}
+
+.secondary-button{
+    background: transparent;
+    color: #FE7E02;
+    border: 1px solid #FE7E02;
+}   
