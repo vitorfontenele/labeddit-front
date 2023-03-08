@@ -1,6 +1,40 @@
 import "./style.css";
+import { useState } from "react";
 
 const LoginPage = () => {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [isEmailActive, setIsEmailActive] = useState();
+    const [isPasswordActive, setIsPasswordActive] = useState();
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+
+        if (email !== ""){
+            setIsEmailActive(true);
+        } else {
+            setIsEmailActive(false);
+        }
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+
+        if (password !== ""){
+            setIsPasswordActive(true);
+        } else {
+            setIsPasswordActive(false);
+        }
+    }
+
+    const getClass = (isFieldActive) => {
+        if (isFieldActive){
+            return "active";
+        } else {
+            return "";
+        }
+    }
+
     return (
         <div className="container">
             <div id="heading-group">
@@ -9,8 +43,30 @@ const LoginPage = () => {
                 <h4 id="subtitle-login">O projeto de rede social da Labenu</h4>
             </div>
             <form className="form" action="" method="post">
-                <input className="form-input" type="email" placeholder="E-mail" />
-                <input className="form-input" type="password" placeholder="Senha" />
+                <div className="form-input-box">
+                    <input 
+                        id="email-login" 
+                        className="form-input" 
+                        type="email" 
+                        value={email}
+                        onChange={handleEmailChange}
+                    />  
+                    <label 
+                        htmlFor="email-login" 
+                        className={`form-input-label ${getClass(isEmailActive)}`}>E-mail</label>
+                </div>
+                <div className="form-input-box">
+                    <input 
+                        id="password-login" 
+                        className="form-input" 
+                        type="password" 
+                        value={password}
+                        onChange={handlePasswordChange}
+                    />
+                    <label 
+                        htmlFor="password-login" 
+                        className={`form-input-label ${getClass(isPasswordActive)}`}>Senha</label>
+                </div>
                 <button id="primary-button-login" className="button primary-button" type="submit">Continuar</button>
             </form>
             <div id="divider-login" className="divider"></div>
