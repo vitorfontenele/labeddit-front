@@ -1,6 +1,6 @@
 import "./style.css";
 import { useState , useEffect } from "react";
-import InputBox from "../../components/InputBox";
+import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
 
@@ -54,7 +54,6 @@ const SignupPage = () => {
                 <button type="submit" className="button primary-button" >Cadastrar</button>
             </form>
         </div>
-        
     )
 }
 

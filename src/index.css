@@ -10,6 +10,25 @@
     padding: 132px 0 0 0;
 }
 
+.header{
+    background-color: #EDEDED;
+    height: 50px;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+}
+
+.header-logo{
+    height: 28px;
+    grid-column: 2 / 3;
+    justify-self: center;
+}
+
+.header-anchor{
+    justify-self: end;
+}
+
 .page-title{
     font-family: 'IBM Plex Sans', sans-serif;
     color: #373737;
@@ -98,4 +117,9 @@
 
 .anchor-weak{
     font-weight: 500;
+}
+
+.anchor-strong{
+    font-weight: 600;
+    font-size: 18px;
 }

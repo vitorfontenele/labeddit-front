@@ -1,6 +1,6 @@
 import "./style.css";
 import { useEffect, useState } from "react";
-import InputBox from "../../components/InputBox";
+import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
 
