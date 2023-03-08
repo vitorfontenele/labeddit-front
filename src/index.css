@@ -90,3 +90,12 @@
     color: #FE7E02;
     border: 1px solid #FE7E02;
 }   
+
+.anchor{
+    color: #4088CB;
+    text-decoration: none;
+}
+
+.anchor-weak{
+    font-weight: 500;
+}
