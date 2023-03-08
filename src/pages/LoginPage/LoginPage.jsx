@@ -1,32 +1,25 @@
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [isEmailActive, setIsEmailActive] = useState();
-    const [isPasswordActive, setIsPasswordActive] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isEmailActive, setIsEmailActive] = useState(false);
+    const [isPasswordActive, setIsPasswordActive] = useState(false);
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-
-        if (email !== ""){
-            setIsEmailActive(true);
-        } else {
-            setIsEmailActive(false);
-        }
+        setEmail(e.target.value); 
     }
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-
-        if (password !== ""){
-            setIsPasswordActive(true);
-        } else {
-            setIsPasswordActive(false);
-        }
     }
 
+    useEffect(() => {
+        setIsEmailActive(email !== "");
+        setIsPasswordActive(password !== "");
+    }, [email, password]);
+      
     const getClass = (isFieldActive) => {
         if (isFieldActive){
             return "active";
