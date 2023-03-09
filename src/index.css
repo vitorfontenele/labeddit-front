@@ -7,7 +7,7 @@
 
 .container{
     margin: 0 32px;
-    padding: 132px 0 0 0;
+    padding: 32px 0 0 0;
 }
 
 .header{
@@ -17,6 +17,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
+}
+
+.invisible{
+    visibility: hidden;
 }
 
 .header-logo{
@@ -122,4 +126,18 @@
 .anchor-strong{
     font-weight: 600;
     font-size: 18px;
+}
+
+.textbox{
+    width: 100%;
+    height: 130px;
+    border-radius: 12px;
+    background-color: #EDEDED;
+    border: none;
+    font-size: 18px;
+    font-family: "IBM Plex Sans", "sans-serif";
+    font-weight: 400;
+    color: #6F6F6F;
+    line-height: 23px;
+    padding: 18px;
 }
