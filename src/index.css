@@ -132,6 +132,7 @@
 .textbox{
     width: 100%;
     min-height: 130px;
+    height: auto;
     border-radius: 12px;
     background-color: #EDEDED;
     border: none;
