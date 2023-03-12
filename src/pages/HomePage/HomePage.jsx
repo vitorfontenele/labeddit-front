@@ -1,16 +1,48 @@
+import axios from "axios";
+import { useState , useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
+import { goToLoginPage } from "../../routes/coordinator";
 
 const HomePage = () => {
-    const propsMock = {
-        username: "labaluno83",
-        title: "Por que a maioria dos desenvolvedores usam Linux? Ou as empresas de tecnologia usam Linux?",
-        upvotes: 1300,
-        downvotes: 100,
-        commentsNumber: 132
-    }
+    const [isLoading, setIsLoading] = useState(false);
+    const [posts, setPosts] = useState([]);
 
-    const {username, title, upvotes, downvotes, commentsNumber} = propsMock;
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        const token = window.localStorage.getItem(TOKEN_NAME);
+
+        if (!token){
+            goToLoginPage(navigate);
+        } else {
+            fetchPosts();
+        }
+    }, []);
+
+    const fetchPosts = async () => {
+        try {
+            setIsLoading(true);
+            const token = window.localStorage.getItem(TOKEN_NAME);
+
+            const config = {
+                headers: {
+                    Authorization: token
+                }
+            }
+
+            const response = await axios.get(BASE_URL + "/posts", config);
+
+            setPosts(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
+    }
 
     return (
         <div className="container">
@@ -22,13 +54,19 @@ const HomePage = () => {
             ></textarea>
             <button id="post-button" className="button primary-button">Postar</button>
             <div id="home-divider" className="divider"></div>
-            <PostBox
-                username={username}
-                title={title}
-                upvotes={upvotes}
-                downvotes={downvotes}
-                commentsNumber={commentsNumber}
-            />
+            {posts.map((post, index) => {
+                const {content, upvotes, downvotes} = post;
+                return (
+                    <PostBox 
+                        username={post.creator.username}
+                        content={content}
+                        upvotes={upvotes}
+                        downvotes={downvotes}
+                        commentsNumber={0}
+                        key={index}
+                    />
+                )
+            })}
         </div>
     )
 }

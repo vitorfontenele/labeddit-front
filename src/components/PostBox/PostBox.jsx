@@ -1,10 +1,10 @@
 const PostBox = (props) => {
-    const { username , title , upvotes , downvotes , commentsNumber } = props;
+    const { username , content , upvotes , downvotes , commentsNumber } = props;
     
     return (
         <article className="postbox-box">
             <span className="postbox-user">Enviada por: {username}</span>
-            <h1 className="postbox-title">{title}</h1>
+            <h1 className="postbox-title">{content}</h1>
             <div>
                 <div>
                     <img></img>
