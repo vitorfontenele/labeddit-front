@@ -1,23 +1,30 @@
 import "./style.css";
-import { useEffect, useState } from "react";
+import { useEffect , useState } from "react";
 import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
 import axios from "axios";
 import { BASE_URL , TOKEN_NAME } from "../../constants/urls";
+import { useNavigate } from "react-router-dom";
+import { goToHomePage } from "../../routes/coordinator";
 
 const LoginPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [form, onChange] = useForm({email: "", password: ""});
     const [activeFields, onActivation] = useActiveFields({email: false, password: false});
-
+    
     useEffect(() => {
         onActivation(form);
     }, [form]);
+
+    const navigate = useNavigate();
 
     const login = async (event) => {
         event.preventDefault();
 
         try {
+            setIsLoading(true);
+
             const body = {
                 email: form.email,
                 password: form.password
@@ -26,7 +33,10 @@ const LoginPage = () => {
             const response = await axios.post(BASE_URL + "/users/login", body);
             window.localStorage.setItem(TOKEN_NAME, response.data.token);
 
+            setIsLoading(false);
+            goToHomePage(navigate);
         } catch (error) {
+            setIsLoading(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
         }
