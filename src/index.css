@@ -117,6 +117,7 @@
 .anchor{
     color: #4088CB;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .anchor-weak{

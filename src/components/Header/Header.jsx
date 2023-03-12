@@ -1,12 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom";
-// import { goToLoginPage } from "../../routes/coordinator";
+import { goToLoginPage } from "../../routes/coordinator";
+import { TOKEN_NAME } from "../../constants/urls";
 
 const Header = () => {
+    const navigate = useNavigate();
     const location = useLocation();
-    // const navigate = useNavigate();
+    
     let visibleClass = "";
     if (location.pathname === "/login"){
         visibleClass = "invisible";
+    }
+
+    const logout = () => {
+        window.localStorage.removeItem(TOKEN_NAME);
+        goToLoginPage(navigate);
     }
 
     const renderAnchor = () => {
@@ -14,15 +21,15 @@ const Header = () => {
             case "/login":
                 return <></>
             case "/signup":
-                return <a className="anchor anchor-strong header-anchor" href="/login">Entrar</a>
+                return <a className="anchor anchor-strong header-anchor" onClick={() => {goToLoginPage(navigate)}}>Entrar</a>
             case "/":
-                return <a className="anchor anchor-strong header-anchor" href="#">Logout</a>
+                return <a className="anchor anchor-strong header-anchor" onClick={() => {logout()}}>Logout</a>
         }
     }
 
     return (
         <header className={`header ${visibleClass}`}>
-            <img className="header-logo" src="logo.svg" />
+            <img className="header-logo" src="logo.svg" alt="Labeddit Logo" />
             {renderAnchor()}
         </header>
     )
