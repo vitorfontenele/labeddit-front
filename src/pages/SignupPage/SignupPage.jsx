@@ -3,8 +3,13 @@ import { useState , useEffect } from "react";
 import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
+import { BASE_URL , TOKEN_NAME } from "../../constants/urls";
+import { goToHomePage } from "../../routes/coordinator";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignupPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [form, onChange] = useForm({username: "", email: "", password: ""});
     const [activeFields, onActivation] = useActiveFields({username: false, email: false, password: false});
     const [checked, setChecked] = useState(false);
@@ -15,10 +20,36 @@ const SignupPage = () => {
 
     const handleCheck = (e) => {setChecked(previousState => !previousState)};
 
+    const navigate = useNavigate();
+
+    const signup = async (event) => {
+        event.preventDefault();
+
+        try {
+            setIsLoading(true);
+
+            const body = {
+                username: form.username,
+                email: form.email,
+                password: form.password
+            }
+
+            const response = await axios.post(BASE_URL + "/users/signup", body);
+            window.localStorage.setItem(TOKEN_NAME, response.data.token);
+
+            setIsLoading(false);
+            goToHomePage(navigate);
+        } catch (error) {
+            setIsLoading(false);
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data)
+        }
+    }
+
     return (
         <div className="container">
             <h1 id="title-signup" className="page-title">{"Olá, boas-vindas ao LabEddit ;)"}</h1>
-            <form className="form" action="" method="post">
+            <form className="form" onSubmit={signup}>
                 <InputBox 
                     id={"username-signup"} 
                     name={"username"}
