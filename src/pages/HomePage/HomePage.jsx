@@ -8,6 +8,7 @@ import { goToLoginPage } from "../../routes/coordinator";
 
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [postContent, setPostContent] = useState("");
     const [posts, setPosts] = useState([]);
 
     const navigate = useNavigate();
@@ -44,15 +45,50 @@ const HomePage = () => {
         }
     }
 
+    const handleContentChange = (event) => {
+        setPostContent(event.target.value);
+    }
+
+    const createPost = async (event) => {
+        event.preventDefault();
+
+        setIsLoading(true);
+        
+        try {
+            const token = window.localStorage.getItem(TOKEN_NAME);
+
+            const config = {
+                headers: {
+                    Authorization: token
+                }
+            };
+
+            const body = {
+                content: postContent
+            }
+
+            await axios.post(BASE_URL + "/posts", body, config);
+            
+            setPostContent("");
+            setIsLoading(false);
+            fetchPosts();
+        } catch (error) {
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
+    }
+
     return (
         <div className="container">
-            <textarea 
-                name="" 
-                id="" 
-                className="textbox"
-                placeholder="Escreva seu post..."
-            ></textarea>
-            <button id="post-button" className="button primary-button">Postar</button>
+            <form onSubmit={createPost}>
+                <textarea 
+                    className="textbox"
+                    placeholder="Escreva seu post..."
+                    value={postContent}
+                    onChange={handleContentChange}
+                ></textarea>
+                <button type="submit" id="post-button" className="button primary-button">Postar</button>
+            </form>
             <div id="home-divider" className="divider"></div>
             {posts.map((post, index) => {
                 const {content, upvotes, downvotes} = post;
