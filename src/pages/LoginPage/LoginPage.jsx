@@ -6,7 +6,7 @@ import useActiveFields from "../../hooks/useActiveFields";
 import axios from "axios";
 import { BASE_URL , TOKEN_NAME } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
-import { goToHomePage } from "../../routes/coordinator";
+import { goToHomePage, goToSignupPage } from "../../routes/coordinator";
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +71,7 @@ const LoginPage = () => {
                 <button id="primary-button-login" className="button primary-button" type="submit">Continuar</button>
             </form>
             <div id="divider-login" className="divider"></div>
-            <button className="button secondary-button">Crie uma conta</button>
+            <button className="button secondary-button" onClick={() => {goToSignupPage(navigate)}}>Crie uma conta</button>
         </div>
     )
 }
