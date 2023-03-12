@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
+import axios from "axios";
+import { BASE_URL , TOKEN_NAME } from "../../constants/urls";
 
 const LoginPage = () => {
     const [form, onChange] = useForm({email: "", password: ""});
@@ -11,6 +13,24 @@ const LoginPage = () => {
     useEffect(() => {
         onActivation(form);
     }, [form]);
+
+    const login = async (event) => {
+        event.preventDefault();
+
+        try {
+            const body = {
+                email: form.email,
+                password: form.password
+            }
+
+            const response = await axios.post(BASE_URL + "/users/login", body);
+            window.localStorage.setItem(TOKEN_NAME, response.data.token);
+
+        } catch (error) {
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
+    }
       
     return (
         <div className="container">
@@ -19,7 +39,7 @@ const LoginPage = () => {
                 <h1 id="title-login" className="page-title">LabEddit</h1>
                 <h4 id="subtitle-login">O projeto de rede social da Labenu</h4>
             </div>
-            <form className="form" action="" method="post">
+            <form className="form" onSubmit={login}>
                 <InputBox 
                     id={"email-login"}
                     name={"email"}
