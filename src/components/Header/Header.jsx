@@ -17,6 +17,14 @@ const Header = () => {
         goToLoginPage(navigate);
     }
 
+    const renderEquis = () => {
+        if (location.pathname.match(/^\/post\/[a-zA-Z0-9-]+$/)){
+            return <a className="equis" onClick={() => {goToHomePage(navigate)}} />
+        } else {
+            return <></>
+        }
+    }
+
     const renderAnchor = () => {
         if (location.pathname.match(/^\/post\/[a-zA-Z0-9-]+$/)){
             return <a className="anchor anchor-strong header-anchor" onClick={() => {logout()}}>Logout</a>
@@ -34,7 +42,7 @@ const Header = () => {
 
     return (
         <header className={`header ${visibleClass}`}>
-            <a className="equis" onClick={() => {goToHomePage(navigate)}}></a>
+            {renderEquis()}
             <img className="header-logo" src={logoSrc} alt="Labeddit Logo" />
             {renderAnchor()}
         </header>
