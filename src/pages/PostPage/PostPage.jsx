@@ -8,6 +8,7 @@ import PostBox from "../../components/PostBox/PostBox";
 const PostPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [post, setPost] = useState({});
+    const [commentContent, setCommentContent] = useState("");
     const { id } = useParams();
 
     const navigate = useNavigate();
@@ -44,8 +45,38 @@ const PostPage = () => {
         }
     }
 
-    const createComment = () => {
+    const handleContentChange = (event) => {
+        setCommentContent(event.target.value);
+    }
 
+    const createComment = async (event) => {
+        event.preventDefault();
+
+        setIsLoading(true);
+
+        try {
+            const token = window.localStorage.getItem(TOKEN_NAME);
+
+            const config = {
+                headers: {
+                    Authorization: token
+                }
+            }
+
+            const body = {
+                content: commentContent,
+                postId: id
+            }
+
+            await axios.post(BASE_URL + "/comments", body, config);
+
+            setCommentContent("");
+            setIsLoading(false);
+            fetchPost();
+        } catch (error) {
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
     }
     
     return (
@@ -62,7 +93,9 @@ const PostPage = () => {
                 <textarea 
                     id="comment-textbox"
                     className="textbox" 
-                    placeholder="Adicionar comentário" 
+                    placeholder="Adicionar comentário"
+                    value={commentContent} 
+                    onChange={handleContentChange}
                 />
                 <button type="submit" className="button primary-button">Responder</button>
             </form>
