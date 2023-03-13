@@ -16,6 +16,19 @@ const PostBox = (props) => {
       
     const netVotes = upvotes - downvotes;
 
+    const renderCommentBox = () => {
+        if (commentsNumber !== undefined){
+            return (
+                <div className="postbox-comment-box">
+                    <img src={commentSrc} alt="Comment" />
+                    <span className="postbox-comment">{formatNumber(commentsNumber)}</span>
+                </div>
+            )
+        } else {
+            return <></>
+        }
+    }
+
     return (
         <article className="postbox-box">
             <span className="postbox-user">Enviada por: {username}</span>
@@ -26,10 +39,7 @@ const PostBox = (props) => {
                     <span className="postbox-votes">{formatNumber(netVotes)}</span>
                     <img src={downvoteSrc} alt="Downvote" />
                 </div>
-                <div className="postbox-comment-box">
-                    <img src={commentSrc} alt="Comment" />
-                    <span className="postbox-comment">{formatNumber(commentsNumber)}</span>
-                </div>
+                {renderCommentBox()}
             </div>
         </article>
     )

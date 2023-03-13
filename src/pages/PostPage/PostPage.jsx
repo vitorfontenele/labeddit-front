@@ -66,6 +66,17 @@ const PostPage = () => {
                 <button type="submit" className="button primary-button">Responder</button>
             </form>
             <div id="post-divider" className="divider"></div>
+            {post.comments?.map((comment, index) => {
+                return (
+                    <PostBox 
+                        username={comment.creator.username}
+                        content={comment.content}
+                        upvotes={comment.upvotes}
+                        downvotes={comment.downvotes}
+                        key={index}
+                    />
+                )
+            })}
         </div>
     )
 }
