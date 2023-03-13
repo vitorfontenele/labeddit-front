@@ -44,15 +44,28 @@ const PostPage = () => {
         }
     }
 
+    const createComment = () => {
+
+    }
+    
     return (
         <div className="container">
             <PostBox
-                username={post.creator.username}
+                username={post.creator?.username}
                 content={post.content}
                 upvotes={post.upvotes}
                 downvotes={post.downvotes}
-                commentsNumber={post.comments.length}
+                commentsNumber={post.comments?.length}
             />
+            <form onSubmit={createComment}>
+                <textarea 
+                    id="comment-textbox"
+                    className="textbox" 
+                    placeholder="Adicionar comentário" 
+                />
+                <button type="submit" className="button primary-button">Responder</button>
+            </form>
+            <div id="post-divider" className="divider"></div>
         </div>
     )
 }

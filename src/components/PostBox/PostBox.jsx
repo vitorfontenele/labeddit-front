@@ -10,7 +10,7 @@ const PostBox = (props) => {
           const formattedNum = (num / 1000).toFixed(1);
           return `${formattedNum}k`;
         } else {
-          return num.toString();
+          return num?.toString();
         }
     }
       
