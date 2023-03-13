@@ -230,3 +230,7 @@
 .equis:after {
     transform: rotate(-45deg);
 }
+
+.vote{
+    cursor: pointer;
+}

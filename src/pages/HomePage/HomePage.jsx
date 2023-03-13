@@ -78,6 +78,29 @@ const HomePage = () => {
         }
     }
 
+    const vote = async (upvote, postId) => {
+        try {
+            const token = window.localStorage.getItem(TOKEN_NAME);
+
+            const config = {
+                headers: {
+                    Authorization: token
+                }
+            }; 
+
+            const body = {
+                upvote: upvote
+            };
+            
+            await axios.put(BASE_URL + `/posts/${postId}/vote`, body, config);
+
+            fetchPosts();
+        } catch (error) {
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
+    }
+
     return (
         <div className="container">
             <form onSubmit={createPost}>
@@ -101,6 +124,7 @@ const HomePage = () => {
                         downvotes={downvotes}
                         commentsNumber={post.comments.length}
                         key={index}
+                        vote={vote}
                     />
                 )
             })}
