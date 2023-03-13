@@ -79,8 +79,9 @@ const PostPage = () => {
         }
     }
 
-    const vote = async (upvote, postId) => {
+    const vote = async (upvote, postId, entity) => {
         try {
+            // entity é 'posts' ou 'comments'
             const token = window.localStorage.getItem(TOKEN_NAME);
 
             const config = {
@@ -93,7 +94,7 @@ const PostPage = () => {
                 upvote: upvote
             };
 
-            await axios.put(BASE_URL + `/posts/${postId}/vote`, body, config);
+            await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
             fetchPost();
         } catch (error) {
@@ -111,6 +112,7 @@ const PostPage = () => {
                 downvotes={post.downvotes}
                 commentsNumber={post.comments?.length}
                 postId={id}
+                entity={"posts"}
                 vote={vote}
             />
             <form onSubmit={createComment}>
@@ -127,12 +129,14 @@ const PostPage = () => {
             {post.comments?.map((comment, index) => {
                 return (
                     <PostBox 
-                        postId={id}
+                        postId={comment.id}
                         username={comment.creator.username}
                         content={comment.content}
                         upvotes={comment.upvotes}
                         downvotes={comment.downvotes}
                         key={index}
+                        entity={"comments"}
+                        vote={vote}
                     />
                 )
             })}

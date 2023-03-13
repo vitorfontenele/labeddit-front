@@ -78,8 +78,9 @@ const HomePage = () => {
         }
     }
 
-    const vote = async (upvote, postId) => {
+    const vote = async (upvote, postId, entity) => {
         try {
+            // entity é 'posts' ou 'comments'
             const token = window.localStorage.getItem(TOKEN_NAME);
 
             const config = {
@@ -92,7 +93,7 @@ const HomePage = () => {
                 upvote: upvote
             };
             
-            await axios.put(BASE_URL + `/posts/${postId}/vote`, body, config);
+            await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
             fetchPosts();
         } catch (error) {
@@ -125,6 +126,7 @@ const HomePage = () => {
                         commentsNumber={post.comments.length}
                         key={index}
                         vote={vote}
+                        entity={"posts"}
                     />
                 )
             })}

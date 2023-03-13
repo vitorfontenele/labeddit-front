@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
 
 const PostBox = (props) => {
-    const { username , content , upvotes , downvotes , commentsNumber , postId , vote } = props;
+    const { username , content , upvotes , downvotes , commentsNumber , postId , vote , entity } = props;
 
     const navigate = useNavigate();
 
@@ -41,9 +41,9 @@ const PostBox = (props) => {
             <h1 className="postbox-title">{content}</h1>
             <div className="postbox-info-box">
                 <div className="postbox-votes-box">
-                    <img src={upvoteSrc} alt="Upvote" className="vote" onClick={() => {vote(true, postId)}}/>
+                    <img src={upvoteSrc} alt="Upvote" className="vote" onClick={() => {vote(true, postId, entity)}}/>
                     <span className="postbox-votes">{formatNumber(netVotes)}</span>
-                    <img src={downvoteSrc} alt="Downvote" className="vote" onClick={() => {vote(false, postId)}} />
+                    <img src={downvoteSrc} alt="Downvote" className="vote" onClick={() => {vote(false, postId, entity)}} />
                 </div>
                 {renderCommentBox()}
             </div>
