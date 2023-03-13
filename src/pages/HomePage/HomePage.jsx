@@ -91,10 +91,11 @@ const HomePage = () => {
             </form>
             <div id="home-divider" className="divider"></div>
             {posts.map((post, index) => {
-                const {content, upvotes, downvotes} = post;
+                const {content, upvotes, downvotes, id} = post;
                 return (
                     <PostBox 
                         username={post.creator.username}
+                        postId={id}
                         content={content}
                         upvotes={upvotes}
                         downvotes={downvotes}

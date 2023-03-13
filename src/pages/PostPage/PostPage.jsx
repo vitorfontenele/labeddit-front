@@ -6,9 +6,9 @@ import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 
 const PostPage = () => {
-    const { id } = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [post, setPost] = useState({});
+    const { id } = useParams();
 
     const navigate = useNavigate();
 
@@ -56,6 +56,7 @@ const PostPage = () => {
                 upvotes={post.upvotes}
                 downvotes={post.downvotes}
                 commentsNumber={post.comments?.length}
+                postId={id}
             />
             <form onSubmit={createComment}>
                 <textarea 
@@ -69,6 +70,7 @@ const PostPage = () => {
             {post.comments?.map((comment, index) => {
                 return (
                     <PostBox 
+                        postId={id}
                         username={comment.creator.username}
                         content={comment.content}
                         upvotes={comment.upvotes}

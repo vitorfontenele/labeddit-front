@@ -1,9 +1,13 @@
 import upvoteSrc from "/upvote.svg";
 import downvoteSrc from "/downvote.svg";
 import commentSrc from "/comment.svg";
+import { goToPostPage } from "../../routes/coordinator";
+import { useNavigate } from "react-router-dom";
 
 const PostBox = (props) => {
-    const { username , content , upvotes , downvotes , commentsNumber } = props;
+    const { username , content , upvotes , downvotes , commentsNumber , postId } = props;
+
+    const navigate = useNavigate();
 
     const formatNumber = (num) => {
         if (num >= 1000) {
@@ -19,7 +23,7 @@ const PostBox = (props) => {
     const renderCommentBox = () => {
         if (commentsNumber !== undefined){
             return (
-                <div className="postbox-comment-box">
+                <div className="postbox-comment-box" onClick={() => {goToPostPage(navigate, postId)}}>
                     <img src={commentSrc} alt="Comment" />
                     <span className="postbox-comment">{formatNumber(commentsNumber)}</span>
                 </div>

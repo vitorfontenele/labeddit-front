@@ -11,5 +11,5 @@ export const goToSignupPage = (navigate) => {
 }
 
 export const goToPostPage = (navigate, postId) => {
-    navigate(`/post/${id}`);
+    navigate(`/post/${postId}`);
 }
