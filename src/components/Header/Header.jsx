@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { goToLoginPage } from "../../routes/coordinator";
 import { TOKEN_NAME } from "../../constants/urls";
+import logoSrc from "/logo.svg";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ const Header = () => {
 
     return (
         <header className={`header ${visibleClass}`}>
-            <img className="header-logo" src="logo.svg" alt="Labeddit Logo" />
+            <img className="header-logo" src={logoSrc} alt="Labeddit Logo" />
             {renderAnchor()}
         </header>
     )

@@ -1,3 +1,7 @@
+import upvoteSrc from "/upvote.svg";
+import downvoteSrc from "/downvote.svg";
+import commentSrc from "/comment.svg";
+
 const PostBox = (props) => {
     const { username , content , upvotes , downvotes , commentsNumber } = props;
 
@@ -18,12 +22,12 @@ const PostBox = (props) => {
             <h1 className="postbox-title">{content}</h1>
             <div className="postbox-info-box">
                 <div className="postbox-votes-box">
-                    <img src="upvote.svg" alt="Upvote" />
+                    <img src={upvoteSrc} alt="Upvote" />
                     <span className="postbox-votes">{formatNumber(netVotes)}</span>
-                    <img src="downvote.svg" alt="Downvote" />
+                    <img src={downvoteSrc} alt="Downvote" />
                 </div>
                 <div className="postbox-comment-box">
-                    <img src="comment.svg" alt="Comment" />
+                    <img src={commentSrc} alt="Comment" />
                     <span className="postbox-comment">{formatNumber(commentsNumber)}</span>
                 </div>
             </div>

@@ -98,7 +98,7 @@ const HomePage = () => {
                         content={content}
                         upvotes={upvotes}
                         downvotes={downvotes}
-                        commentsNumber={0}
+                        commentsNumber={post.comments.length}
                         key={index}
                     />
                 )
