@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
+import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 import { goToLoginPage } from "../../routes/coordinator";
@@ -10,6 +10,8 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [postContent, setPostContent] = useState("");
     const [posts, setPosts] = useState([]);
+    const [votes, setVotes] = useState([]);
+    const [loggedUserId, setLoggedUserId] = useState("");
 
     const navigate = useNavigate();
     
@@ -34,9 +36,12 @@ const HomePage = () => {
                 }
             }
 
-            const response = await axios.get(BASE_URL + "/posts", config);
+            const responsePosts = await axios.get(BASE_URL + "/posts", config);
+            const responseVotes = await axios.get(BASE_URL + "/posts/vote", config);
 
-            setPosts(response.data);
+            setLoggedUserId(window.localStorage.getItem(USER_ID));
+            setVotes(responseVotes.data);
+            setPosts(responsePosts.data);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -115,17 +120,21 @@ const HomePage = () => {
             </form>
             <div id="home-divider" className="divider"></div>
             {posts.map((post, index) => {
-                const {content, upvotes, downvotes, id} = post;
+                const {content, upvotes, downvotes} = post;
+                const postId = post.id;
+                const matchVote = votes.find(vote =>  vote.userId === loggedUserId && vote.postId === postId);
+                
                 return (
                     <PostBox 
                         username={post.creator.username}
-                        postId={id}
+                        postId={postId}
                         content={content}
                         upvotes={upvotes}
                         downvotes={downvotes}
                         commentsNumber={post.comments.length}
                         key={index}
                         vote={vote}
+                        matchVote={matchVote}
                         entity={"posts"}
                     />
                 )

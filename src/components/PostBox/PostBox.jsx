@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
 
 const PostBox = (props) => {
-    const { username , content , upvotes , downvotes , commentsNumber , postId , vote , entity } = props;
+    const { username , content , upvotes , downvotes , commentsNumber , postId , vote , matchVote , entity } = props;
 
     const navigate = useNavigate();
 

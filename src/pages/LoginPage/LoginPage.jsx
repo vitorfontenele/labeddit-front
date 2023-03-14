@@ -4,7 +4,7 @@ import InputBox from "../../components/InputBox/InputBox";
 import useForm from "../../hooks/useForm";
 import useActiveFields from "../../hooks/useActiveFields";
 import axios from "axios";
-import { BASE_URL , TOKEN_NAME } from "../../constants/urls";
+import { BASE_URL , TOKEN_NAME , USER_ID } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
 import { goToHomePage, goToSignupPage } from "../../routes/coordinator";
 
@@ -32,6 +32,7 @@ const LoginPage = () => {
 
             const response = await axios.post(BASE_URL + "/users/login", body);
             window.localStorage.setItem(TOKEN_NAME, response.data.token);
+            window.localStorage.setItem(USER_ID, response.data.userId);
 
             setIsLoading(false);
             goToHomePage(navigate);
