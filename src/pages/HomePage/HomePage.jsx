@@ -84,8 +84,13 @@ const HomePage = () => {
     }
 
     const vote = async (upvote, postId, entity) => {
+        if (isLoading){
+            return;
+        }
+
         try {
             // entity é 'posts' ou 'comments'
+            setIsLoading(true);
             const token = window.localStorage.getItem(TOKEN_NAME);
 
             const config = {
@@ -101,7 +106,9 @@ const HomePage = () => {
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
             fetchPosts();
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
         }
@@ -123,14 +130,16 @@ const HomePage = () => {
                 const {content, upvotes, downvotes} = post;
                 const postId = post.id;
                 const matchVote = votes.find(vote =>  vote.userId === loggedUserId && vote.postId === postId);
+                const upvotesSafe = votes.filter(vote => vote.postId === postId && vote.upvote === 1);
+                const downvotesSafe = votes.filter(vote => vote.postId === postId && vote.upvote === 0);
                 
                 return (
                     <PostBox 
                         username={post.creator.username}
                         postId={postId}
                         content={content}
-                        upvotes={upvotes}
-                        downvotes={downvotes}
+                        upvotes={upvotesSafe.length}
+                        downvotes={downvotesSafe.length}
                         commentsNumber={post.comments.length}
                         key={index}
                         vote={vote}

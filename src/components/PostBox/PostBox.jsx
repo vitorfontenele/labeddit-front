@@ -1,6 +1,8 @@
 import axios from "axios";
 import upvoteSrc from "/upvote.svg";
+import upvoteActiveSrc from "/upvote-active.svg";
 import downvoteSrc from "/downvote.svg";
+import downvoteActiveSrc from "/downvote-active.svg";
 import commentSrc from "/comment.svg";
 import { goToPostPage } from "../../routes/coordinator";
 import { useNavigate } from "react-router-dom";
@@ -41,9 +43,19 @@ const PostBox = (props) => {
             <h1 className="postbox-title">{content}</h1>
             <div className="postbox-info-box">
                 <div className="postbox-votes-box">
-                    <img src={upvoteSrc} alt="Upvote" className="vote" onClick={() => {vote(true, postId, entity)}}/>
+                    <img 
+                        src={matchVote?.upvote === 1 ? upvoteActiveSrc : upvoteSrc} 
+                        alt="Upvote" 
+                        className="vote" 
+                        onClick={() => {vote(true, postId, entity)}}/>
                     <span className="postbox-votes">{formatNumber(netVotes)}</span>
-                    <img src={downvoteSrc} alt="Downvote" className="vote" onClick={() => {vote(false, postId, entity)}} />
+                    <img 
+                        src={matchVote?.upvote === 0 ? downvoteActiveSrc : 
+                        downvoteSrc} 
+                        alt="Downvote"
+                        className="vote"
+                        onClick={() => {vote(false, postId, entity)}}
+                    />
                 </div>
                 {renderCommentBox()}
             </div>
