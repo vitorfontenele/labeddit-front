@@ -31,7 +31,8 @@ const SignupPage = () => {
             const body = {
                 username: form.username,
                 email: form.email,
-                password: form.password
+                password: form.password,
+                receiveEmails: Number(checked)
             }
 
             const response = await axios.post(BASE_URL + "/users/signup", body);

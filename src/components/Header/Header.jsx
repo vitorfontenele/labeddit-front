@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { goToHomePage, goToLoginPage } from "../../routes/coordinator";
-import { TOKEN_NAME } from "../../constants/urls";
+import { TOKEN_NAME , USER_ID } from "../../constants/urls";
 import logoSrc from "/logo.svg";
 
 const Header = () => {
@@ -14,6 +14,7 @@ const Header = () => {
 
     const logout = () => {
         window.localStorage.removeItem(TOKEN_NAME);
+        window.localStorage.removeItem(USER_ID);
         goToLoginPage(navigate);
     }
 
