@@ -39,7 +39,7 @@ const HomePage = () => {
             }
 
             const responsePosts = await axios.get(BASE_URL + "/posts", config);
-            const responseVotes = await axios.get(BASE_URL + "/posts/vote", config);
+            const responseVotes = await axios.get(BASE_URL + "/posts/votes", config);
 
             setTimeout(() => {
                 setLoggedUserId(window.localStorage.getItem(USER_ID));
@@ -85,7 +85,7 @@ const HomePage = () => {
         }
     }
 
-    const vote = async (upvote, postId, entity) => {
+    const onVote = async (vote, postId, entity) => {
         if (isLoadingVote){
             return;
         }
@@ -102,7 +102,7 @@ const HomePage = () => {
             }; 
 
             const body = {
-                upvote: upvote
+                vote: vote
             };
             
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
@@ -132,8 +132,8 @@ const HomePage = () => {
                 const {content, upvotes, downvotes} = post;
                 const postId = post.id;
                 const matchVote = votes.find(vote =>  vote.userId === loggedUserId && vote.postId === postId);
-                const upvotesSafe = votes.filter(vote => vote.postId === postId && vote.upvote === 1);
-                const downvotesSafe = votes.filter(vote => vote.postId === postId && vote.upvote === 0);
+                const upvotesSafe = votes.filter(vote => vote.postId === postId && vote.vote === 1);
+                const downvotesSafe = votes.filter(vote => vote.postId === postId && vote.vote === 0);
                 
                 return (
                     <PostBox 
@@ -144,7 +144,7 @@ const HomePage = () => {
                         downvotes={downvotesSafe.length}
                         commentsNumber={post.comments.length}
                         key={index}
-                        vote={vote}
+                        onVote={onVote}
                         matchVote={matchVote}
                         entity={"posts"}
                     />

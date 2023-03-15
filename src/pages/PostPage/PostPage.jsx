@@ -41,8 +41,8 @@ const PostPage = () => {
             }
 
             const responsePost = await axios.get(BASE_URL + `/posts/${id}`, config);
-            const responsePostsVotes = await axios.get(BASE_URL + "/posts/vote", config);
-            const responseCommentsVotes = await axios.get(BASE_URL + "/comments/vote", config);
+            const responsePostsVotes = await axios.get(BASE_URL + "/posts/votes", config);
+            const responseCommentsVotes = await axios.get(BASE_URL + "/comments/votes", config);
 
             setTimeout(() => {
                 setLoggedUserId(window.localStorage.getItem(USER_ID));
@@ -89,7 +89,7 @@ const PostPage = () => {
         }
     }
 
-    const vote = async (upvote, postId, entity) => {
+    const onVote = async (vote, postId, entity) => {
         if (isLoadingVote){
             return;
         }
@@ -106,7 +106,7 @@ const PostPage = () => {
             }; 
 
             const body = {
-                upvote: upvote
+                vote: vote
             };
 
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
@@ -121,8 +121,8 @@ const PostPage = () => {
     }
 
     const matchPostVotes = postVotes.find(vote => vote.userId == loggedUserId && vote.postId == id);
-    const postUpvotesSafe = postVotes.filter(vote => vote.postId === id && vote.upvote === 1);
-    const postDownvotesSafe = postVotes.filter(vote => vote.postId === id && vote.upvote === 0);
+    const postUpvotesSafe = postVotes.filter(vote => vote.postId === id && vote.vote === 1);
+    const postDownvotesSafe = postVotes.filter(vote => vote.postId === id && vote.vote === 0);
     
     return (
         <div className="container">
@@ -134,7 +134,7 @@ const PostPage = () => {
                 commentsNumber={post.comments?.length}
                 postId={id}
                 entity={"posts"}
-                vote={vote}
+                onVote={onVote}
                 matchVote={matchPostVotes}
             />
             <form onSubmit={createComment}>
@@ -152,8 +152,8 @@ const PostPage = () => {
                 const { content } = comment;
                 const commentId = comment.id;
                 const matchCommentVotes = commentVotes.find(vote => vote.userId === loggedUserId && vote.commentId === commentId);
-                const commentUpvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.upvote === 1);
-                const commentDownvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.upvote === 0);
+                const commentUpvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.vote === 1);
+                const commentDownvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.vote === 0);
                 
                 return (
                     <PostBox 
@@ -165,7 +165,7 @@ const PostPage = () => {
                         key={index}
                         entity={"comments"}
                         matchVote={matchCommentVotes}
-                        vote={vote}
+                        onVote={onVote}
                     />
                 )
             })}
