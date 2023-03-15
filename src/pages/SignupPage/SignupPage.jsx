@@ -32,7 +32,7 @@ const SignupPage = () => {
                 username: form.username,
                 email: form.email,
                 password: form.password,
-                receiveEmails: Number(checked)
+                receiveEmails: checked
             }
 
             const response = await axios.post(BASE_URL + "/users/signup", body);
