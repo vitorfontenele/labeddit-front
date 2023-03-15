@@ -9,6 +9,7 @@ import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
 
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingVote, setIsLoadingVote] = useState(false);
     const [postContent, setPostContent] = useState("");
     const [posts, setPosts] = useState([]);
     const [votes, setVotes] = useState([]);
@@ -45,7 +46,7 @@ const HomePage = () => {
                 setVotes(responseVotes.data);
                 setPosts(responsePosts.data);
                 setIsLoading(false);
-            }, 1000);
+            }, 500);
             
         } catch (error) {
             setIsLoading(false);
@@ -60,9 +61,7 @@ const HomePage = () => {
 
     const createPost = async (event) => {
         event.preventDefault();
-
-        setIsLoading(true);
-        
+      
         try {
             const token = window.localStorage.getItem(TOKEN_NAME);
 
@@ -79,7 +78,6 @@ const HomePage = () => {
             await axios.post(BASE_URL + "/posts", body, config);
             
             setPostContent("");
-            setIsLoading(false);
             fetchPosts();
         } catch (error) {
             console.error(error?.response?.data);
@@ -88,13 +86,13 @@ const HomePage = () => {
     }
 
     const vote = async (upvote, postId, entity) => {
-        if (isLoading){
+        if (isLoadingVote){
             return;
         }
 
         try {
             // entity é 'posts' ou 'comments'
-            setIsLoading(true);
+            setIsLoadingVote(true);
             const token = window.localStorage.getItem(TOKEN_NAME);
 
             const config = {
@@ -110,9 +108,9 @@ const HomePage = () => {
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
             fetchPosts();
-            setIsLoading(false);
+            setIsLoadingVote(false);
         } catch (error) {
-            setIsLoading(false);
+            setIsLoadingVote(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
         }

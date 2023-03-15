@@ -8,6 +8,7 @@ import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
 
 const PostPage = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingVote, setIsLoadingVote] = useState(false);
     const [post, setPost] = useState({});
     const [commentContent, setCommentContent] = useState("");
     const { id } = useParams();
@@ -63,8 +64,6 @@ const PostPage = () => {
     const createComment = async (event) => {
         event.preventDefault();
 
-        setIsLoading(true);
-
         try {
             const token = window.localStorage.getItem(TOKEN_NAME);
 
@@ -82,7 +81,6 @@ const PostPage = () => {
             await axios.post(BASE_URL + "/comments", body, config);
 
             setCommentContent("");
-            setIsLoading(false);
             fetchPost();
         } catch (error) {
             console.error(error?.response?.data);
@@ -91,11 +89,12 @@ const PostPage = () => {
     }
 
     const vote = async (upvote, postId, entity) => {
-        if (isLoading){
+        if (isLoadingVote){
             return;
         }
 
         try {
+            setIsLoadingVote(true);
             // entity é 'posts' ou 'comments'
             const token = window.localStorage.getItem(TOKEN_NAME);
 
@@ -111,8 +110,10 @@ const PostPage = () => {
 
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
+            setIsLoadingVote(false);
             fetchPost();
         } catch (error) {
+            setIsLoadingVote(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data); 
         }
