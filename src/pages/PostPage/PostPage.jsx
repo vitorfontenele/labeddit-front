@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState , useEffect} from "react";
 import { useNavigate , useParams } from "react-router-dom";
-import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
+import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 
@@ -10,6 +10,9 @@ const PostPage = () => {
     const [post, setPost] = useState({});
     const [commentContent, setCommentContent] = useState("");
     const { id } = useParams();
+    const [postVotes, setPostVotes] = useState([]);
+    const [commentVotes, setCommentVotes] = useState([]);
+    const [loggedUserId, setLoggedUserId] = useState("");
 
     const navigate = useNavigate();
 
@@ -34,9 +37,14 @@ const PostPage = () => {
                 }
             }
 
-            const response = await axios.get(BASE_URL + `/posts/${id}`, config);
+            const responsePost = await axios.get(BASE_URL + `/posts/${id}`, config);
+            const responsePostsVotes = await axios.get(BASE_URL + "/posts/vote", config);
+            const responseCommentsVotes = await axios.get(BASE_URL + "/comments/vote", config);
 
-            setPost(response.data);
+            setLoggedUserId(window.localStorage.getItem(USER_ID));
+            setPostVotes(responsePostsVotes.data);
+            setCommentVotes(responseCommentsVotes.data);
+            setPost(responsePost.data);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -80,6 +88,10 @@ const PostPage = () => {
     }
 
     const vote = async (upvote, postId, entity) => {
+        if (isLoading){
+            return;
+        }
+
         try {
             // entity é 'posts' ou 'comments'
             const token = window.localStorage.getItem(TOKEN_NAME);
@@ -102,18 +114,23 @@ const PostPage = () => {
             window.alert(error?.response?.data); 
         }
     }
+
+    const matchPostVotes = postVotes.find(vote => vote.userId == loggedUserId && vote.postId == id);
+    const postUpvotesSafe = postVotes.filter(vote => vote.postId === id && vote.upvote === 1);
+    const postDownvotesSafe = postVotes.filter(vote => vote.postId === id && vote.upvote === 0);
     
     return (
         <div className="container">
             <PostBox
                 username={post.creator?.username}
                 content={post.content}
-                upvotes={post.upvotes}
-                downvotes={post.downvotes}
+                upvotes={postUpvotesSafe.length}
+                downvotes={postDownvotesSafe.length}
                 commentsNumber={post.comments?.length}
                 postId={id}
                 entity={"posts"}
                 vote={vote}
+                matchVote={matchPostVotes}
             />
             <form onSubmit={createComment}>
                 <textarea 
@@ -127,15 +144,22 @@ const PostPage = () => {
             </form>
             <div id="post-divider" className="divider"></div>
             {post.comments?.map((comment, index) => {
+                const { content } = comment;
+                const commentId = comment.id;
+                const matchCommentVotes = commentVotes.find(vote => vote.userId === loggedUserId && vote.commentId === commentId);
+                const commentUpvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.upvote === 1);
+                const commentDownvotesSafe = commentVotes.filter(vote => vote.commentId === commentId && vote.upvote === 0);
+                
                 return (
                     <PostBox 
-                        postId={comment.id}
+                        postId={commentId}
                         username={comment.creator.username}
-                        content={comment.content}
-                        upvotes={comment.upvotes}
-                        downvotes={comment.downvotes}
+                        content={content}
+                        upvotes={commentUpvotesSafe?.length}
+                        downvotes={commentDownvotesSafe?.length}
                         key={index}
                         entity={"comments"}
+                        matchVote={matchCommentVotes}
                         vote={vote}
                     />
                 )
