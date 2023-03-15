@@ -78,6 +78,10 @@
     transform: translate(-7px, 6px) scale(0.75);
 }
 
+.form-input-box:focus-within{
+    border-color: #4088CB;
+}
+
 .active{
     transform: translate(-7px, 6px) scale(0.75);
 }
@@ -139,9 +143,17 @@
     font-size: 18px;
     font-family: "IBM Plex Sans", "sans-serif";
     font-weight: 400;
-    color: #6F6F6F;
+    color: #373737;
     line-height: 23px;
     padding: 18px;
+}
+
+.textbox::placeholder{
+    color: #6F6F6F;
+}
+
+.textbox:focus{
+    outline: .5px solid #6F6F6F;
 }
 
 .postbox-box{
@@ -233,4 +245,18 @@
 
 .vote{
     cursor: pointer;
+}
+
+@media screen and (min-width: 768px){
+    .secondary-button:hover{
+        background-color: #FFF5EC;
+    }
+
+    .primary-button:hover{
+        background: linear-gradient(90deg, #f4567b 0%, #ff9d13 100%);
+    }
+
+    .anchor:hover{
+        color: #336594;
+    }
 }
