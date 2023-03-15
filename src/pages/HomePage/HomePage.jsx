@@ -5,6 +5,7 @@ import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 import { goToLoginPage } from "../../routes/coordinator";
+import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
 
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +40,13 @@ const HomePage = () => {
             const responsePosts = await axios.get(BASE_URL + "/posts", config);
             const responseVotes = await axios.get(BASE_URL + "/posts/vote", config);
 
-            setLoggedUserId(window.localStorage.getItem(USER_ID));
-            setVotes(responseVotes.data);
-            setPosts(responsePosts.data);
-            setIsLoading(false);
+            setTimeout(() => {
+                setLoggedUserId(window.localStorage.getItem(USER_ID));
+                setVotes(responseVotes.data);
+                setPosts(responsePosts.data);
+                setIsLoading(false);
+            }, 1000);
+            
         } catch (error) {
             setIsLoading(false);
             console.error(error?.response?.data);
@@ -148,6 +152,7 @@ const HomePage = () => {
                     />
                 )
             })}
+            {isLoading && <BigLoadingModal/>}
         </div>
     )
 }

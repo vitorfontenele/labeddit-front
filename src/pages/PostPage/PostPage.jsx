@@ -4,6 +4,7 @@ import { useNavigate , useParams } from "react-router-dom";
 import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
+import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
 
 const PostPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -41,11 +42,13 @@ const PostPage = () => {
             const responsePostsVotes = await axios.get(BASE_URL + "/posts/vote", config);
             const responseCommentsVotes = await axios.get(BASE_URL + "/comments/vote", config);
 
-            setLoggedUserId(window.localStorage.getItem(USER_ID));
-            setPostVotes(responsePostsVotes.data);
-            setCommentVotes(responseCommentsVotes.data);
-            setPost(responsePost.data);
-            setIsLoading(false);
+            setTimeout(() => {
+                setLoggedUserId(window.localStorage.getItem(USER_ID));
+                setPostVotes(responsePostsVotes.data);
+                setCommentVotes(responseCommentsVotes.data);
+                setPost(responsePost.data);
+                setIsLoading(false);
+            }, 500);
         } catch (error) {
             setIsLoading(false);
             console.error(error?.response?.data);
@@ -164,6 +167,7 @@ const PostPage = () => {
                     />
                 )
             })}
+            {isLoading && <BigLoadingModal/>}
         </div>
     )
 }
