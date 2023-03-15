@@ -5,6 +5,7 @@ import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
+import { goToLoginPage } from "../../routes/coordinator";
 
 const PostPage = () => {
     const [isLoading, setIsLoading] = useState(false);
