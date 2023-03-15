@@ -248,6 +248,15 @@
 }
 
 @media screen and (min-width: 768px){
+    .container{
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    .header{
+        padding: 0 calc((100vw - 700px)/2);
+    }
+
     .secondary-button:hover{
         background-color: #FFF5EC;
     }
