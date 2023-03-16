@@ -25,13 +25,13 @@ const PostPage = () => {
         if (!token){
             goToLoginPage(navigate);
         } else {
-            fetchPost();
+            fetchPost(setIsLoading);
         }
     }, []);
 
-    const fetchPost = async () => {
+    const fetchPost = async (setLoadingFunction) => {
         try {
-            setIsLoading(true);
+            setLoadingFunction(true);
             const token = window.localStorage.getItem(TOKEN_NAME);
             
             const config = {
@@ -49,10 +49,10 @@ const PostPage = () => {
                 setPostVotes(responsePostsVotes.data);
                 setCommentVotes(responseCommentsVotes.data);
                 setPost(responsePost.data);
-                setIsLoading(false);
+                setLoadingFunction(false);
             }, 500);
         } catch (error) {
-            setIsLoading(false);
+            setLoadingFunction(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
         }
@@ -82,7 +82,7 @@ const PostPage = () => {
             await axios.post(BASE_URL + "/comments", body, config);
 
             setCommentContent("");
-            fetchPost();
+            fetchPost(setIsLoading);
         } catch (error) {
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
@@ -111,8 +111,7 @@ const PostPage = () => {
 
             await axios.put(BASE_URL + `/${entity}/${postId}/vote`, body, config);
 
-            setIsLoadingVote(false);
-            fetchPost();
+            fetchPost(setIsLoadingVote);
         } catch (error) {
             setIsLoadingVote(false);
             console.error(error?.response?.data);
