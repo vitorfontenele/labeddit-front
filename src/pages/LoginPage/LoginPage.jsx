@@ -12,12 +12,39 @@ const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [form, onChange] = useForm({email: "", password: ""});
     const [activeFields, onActivation] = useActiveFields({email: false, password: false});
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        checkForToken();
+    }, []);
+
+    const checkForToken = async () => {
+        try {
+            const token = window.localStorage.getItem(TOKEN_NAME);
+            
+            if (token){  
+                const response = await axios.get(BASE_URL + `/users/verify-token/${token}`);
+                console.log(response);
+
+                if (response.data.isTokenValid){
+                    goToHomePage(navigate);
+                } else {
+                    return;
+                }
+            } else {
+                return;
+            }
+            
+        } catch (error) {
+            console.error(error?.response?.data);
+            window.alert(error?.response?.data);
+        }
+    }
     
     useEffect(() => {
         onActivation(form);
     }, [form]);
-
-    const navigate = useNavigate();
 
     const login = async (event) => {
         event.preventDefault();
