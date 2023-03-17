@@ -13,3 +13,7 @@ export const goToSignupPage = (navigate) => {
 export const goToPostPage = (navigate, postId) => {
     navigate(`/post/${postId}`);
 }
+
+export const goToNotFoundPage = (navigate) => {
+    navigate("*");
+}

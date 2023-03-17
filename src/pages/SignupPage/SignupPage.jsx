@@ -32,8 +32,7 @@ const SignupPage = () => {
             
             if (token){  
                 const response = await axios.get(BASE_URL + `/users/verify-token/${token}`);
-                console.log(response);
-
+                
                 if (response.data.isTokenValid){
                     goToHomePage(navigate);
                 } else {

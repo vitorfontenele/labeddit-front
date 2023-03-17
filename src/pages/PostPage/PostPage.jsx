@@ -5,7 +5,7 @@ import { BASE_URL, TOKEN_NAME , USER_ID } from "../../constants/urls";
 import "./style.css";
 import PostBox from "../../components/PostBox/PostBox";
 import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
-import { goToLoginPage } from "../../routes/coordinator";
+import { goToHomePage, goToLoginPage, goToNotFoundPage } from "../../routes/coordinator";
 
 const PostPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +52,10 @@ const PostPage = () => {
                 setLoadingFunction(false);
             }, 500);
         } catch (error) {
+            if (error?.response?.status === 404){
+                goToNotFoundPage(navigate);
+                return;
+            }
             setLoadingFunction(false);
             console.error(error?.response?.data);
             window.alert(error?.response?.data);
