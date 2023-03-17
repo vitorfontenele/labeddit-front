@@ -5,7 +5,7 @@ const BigLoadingModal = () => {
         <div className='modal'>
         <div className='modal-content'>
           <div className='loader'></div>
-          <div className='modal-text'>Loading...</div>
+          <div className='modal-text'>Carregando...</div>
         </div>
       </div>
     )
