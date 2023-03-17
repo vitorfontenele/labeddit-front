@@ -7,6 +7,7 @@ import { BASE_URL , TOKEN_NAME , USER_ID } from "../../constants/urls";
 import { goToHomePage } from "../../routes/coordinator";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BigLoadingModal from "../../components/BigLoadingModal";
 
 const SignupPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -112,6 +113,7 @@ const SignupPage = () => {
                 </div>
                 <button type="submit" className="button primary-button" >Cadastrar</button>
             </form>
+            {isLoading && <BigLoadingModal />}
         </div>
     )
 }
