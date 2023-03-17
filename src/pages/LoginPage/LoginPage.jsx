@@ -7,7 +7,7 @@ import axios from "axios";
 import { BASE_URL , TOKEN_NAME , USER_ID } from "../../constants/urls";
 import { useNavigate } from "react-router-dom";
 import { goToHomePage, goToSignupPage } from "../../routes/coordinator";
-import BigLoadingModal from "../../components/BigLoadingModal";
+import BigLoadingModal from "../../components/BigLoadingModal/BigLoadingModal";
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
