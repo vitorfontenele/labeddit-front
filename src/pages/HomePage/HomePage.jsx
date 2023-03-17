@@ -85,7 +85,8 @@ const HomePage = () => {
         }
     }
 
-    const onVote = async (vote, postId, entity) => {
+    const onVote = async (vote, postId, entity, event) => {
+        event.stopPropagation();
         if (isLoadingVote){
             return;
         }
@@ -146,6 +147,7 @@ const HomePage = () => {
                         onVote={onVote}
                         matchVote={matchVote}
                         entity={"posts"}
+                        isClickable={"clickable"}
                     />
                 )
             })}

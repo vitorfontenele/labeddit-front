@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL, TOKEN_NAME } from "../../constants/urls";
 
 const PostBox = (props) => {
-    const { username , content , upvotes , downvotes , commentsNumber , postId , onVote , matchVote , entity } = props;
+    const { username , content , upvotes , downvotes , commentsNumber , postId , onVote , matchVote , entity , isClickable } = props;
 
     const navigate = useNavigate();
 
@@ -37,24 +37,32 @@ const PostBox = (props) => {
         }
     }
 
+    const goToPage = () => {
+        if (entity === "posts"){
+            goToPostPage(navigate, postId);
+        } else {
+            return;
+        }
+    }
+
     return (
-        <article className="postbox-box">
+        <article className={`postbox-box ${isClickable}`} onClick={() => {goToPage()}}>
             <span className="postbox-user">Enviada por: {username}</span>
-            <h1 className="postbox-title">{content}</h1>
+            <h1 className="postbox-title" >{content}</h1>
             <div className="postbox-info-box">
                 <div className="postbox-votes-box">
                     <img 
                         src={matchVote?.vote === 1 ? upvoteActiveSrc : upvoteSrc} 
                         alt="Upvote" 
                         className="vote" 
-                        onClick={() => {onVote(true, postId, entity)}}/>
+                        onClick={(event) => {onVote(true, postId, entity, event)}}/>
                     <span className="postbox-votes">{formatNumber(netVotes)}</span>
                     <img 
                         src={matchVote?.vote === 0 ? downvoteActiveSrc : 
                         downvoteSrc} 
                         alt="Downvote"
                         className="vote"
-                        onClick={() => {onVote(false, postId, entity)}}
+                        onClick={(event) => {onVote(false, postId, entity, event)}}
                     />
                 </div>
                 {renderCommentBox()}

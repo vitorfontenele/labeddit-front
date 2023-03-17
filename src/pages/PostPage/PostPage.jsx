@@ -135,6 +135,7 @@ const PostPage = () => {
                 entity={"posts"}
                 onVote={onVote}
                 matchVote={matchPostVotes}
+                isClickable={"non-clickable"}
             />
             <form onSubmit={createComment}>
                 <textarea 
@@ -165,6 +166,7 @@ const PostPage = () => {
                         entity={"comments"}
                         matchVote={matchCommentVotes}
                         onVote={onVote}
+                        isClickable={"non-clickable"}
                     />
                 )
             })}
