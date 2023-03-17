@@ -275,4 +275,8 @@
     .anchor:hover{
         color: #336594;
     }
+
+    .clickable:hover{
+        background-color: #f6f3f3;
+    }
 }
